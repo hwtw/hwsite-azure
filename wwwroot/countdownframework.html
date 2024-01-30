@@ -1,0 +1,20 @@
+<!-- Add the countdown.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/countdown/2.6.0/countdown.min.js"></script>
+
+<!-- Initialize countdown and update UI -->
+<script>
+    function initializeCountdown(targetDate) {
+        const options = { format: 'hh:mm:ss' };
+        const countdownClock = countdown(targetDate, (ts) => {
+            const formattedTime = countdown.format(ts, options);
+            DotNet.invokeMethodAsync('BlazorApp', 'UpdateCountdown', formattedTime);
+        });
+
+        const initialTime = countdown.format(countdownClock.value, options);
+        DotNet.invokeMethodAsync('BlazorApp', 'UpdateCountdown', initialTime);
+    }
+
+    function updateUI(formattedTime) {
+        document.getElementById('countdownClock').innerText = formattedTime;
+    }
+</script>
